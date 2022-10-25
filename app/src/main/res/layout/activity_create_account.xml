@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".createAccountActivity">
+
+    <EditText
+        android:id="@+id/editTextEmailAddress2"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="83dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/createAccountButton2"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="80dp"
+        android:backgroundTint="#669C49"
+        android:fontFamily="sans-serif-medium"
+        android:text="Create Account"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword2" />
+
+    <Button
+        android:id="@+id/backButton2"
+        android:layout_width="111dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="150dp"
+        android:backgroundTint="#00FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:text="Back"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountButton2" />
+
+    <EditText
+        android:id="@+id/editTextPassword2"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="83dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
