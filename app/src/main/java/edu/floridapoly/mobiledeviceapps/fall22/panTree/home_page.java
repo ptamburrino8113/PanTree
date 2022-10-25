@@ -14,6 +14,7 @@ public class home_page extends AppCompatActivity {
     Button sharesButton;
     Button logoutButton;
 
+    // initialize home_page
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
