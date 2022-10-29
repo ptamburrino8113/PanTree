@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pantreelogo" />
+        app:srcCompat="@drawable/imagelogo_pantree" />
 
     <EditText
         android:id="@+id/editTextEmailAddress2"
@@ -99,43 +99,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButton2" />
 
-    <Button
-        android:id="@+id/loginMessageButton"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="5dp"
-        android:text="i"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/createAccountButton2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/forgotPasswordMessageButton"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="5dp"
-        android:text="i"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toStartOf="@+id/backButton2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginMessageButton" />
-
-    <Button
-        android:id="@+id/createAccountMessageButton"
-        android:layout_width="36dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:text="i"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toStartOf="@+id/createAccountButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordMessageButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
