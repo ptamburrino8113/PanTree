@@ -1,14 +1,24 @@
 package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button forgotPasswordButton;
     Button createAccountButton;
+    private FirebaseAuth auth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -30,14 +42,38 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.createAccountButton2);
         forgotPasswordButton = findViewById(R.id.backButton2);
         createAccountButton = findViewById(R.id.createAccountButton);
-
+        auth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, home_page.class);
-                intent.putExtra("Username", editTextEmailAddress.getText().toString());
-                startActivity(intent);
+            public void onClick(View view)
+            {
+                String emaill = editTextEmailAddress.getText().toString().trim();
+                String passs = editTextPassword.getText().toString().trim();
+
+                auth.signInWithEmailAndPassword(emaill, passs)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful())
+                                {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    //Log.d(TAG, "createUserWithEmail:success");
+                                    FirebaseUser user = auth.getCurrentUser();
+
+                                    Intent intent = new Intent(MainActivity.this, home_page.class);
+                                    intent.putExtra("email", emaill);
+                                    startActivity(intent);
+                                    //updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                                    //updateUI(null);
+                                }
+                            }
+                        });
+
             }
         });
 
