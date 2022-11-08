@@ -103,16 +103,18 @@ public class createAccountActivity extends AppCompatActivity
                             }
                         });
 
-
-
-
-
-
-
-
-
             }
         });
+
+
+        backButton2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(createAccountActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
