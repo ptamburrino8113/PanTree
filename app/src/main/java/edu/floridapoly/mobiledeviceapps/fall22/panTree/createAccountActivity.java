@@ -75,6 +75,23 @@ public class createAccountActivity extends AppCompatActivity
                                     Toast.makeText(createAccountActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(createAccountActivity.this, home_page.class);
                                     intent.putExtra("email", emaill);
+                                    Map<String, Object> userr = new HashMap<>();
+                                    userr.put("email", emaill);
+                                    userr.put("pass", passs);
+
+                                    db.collection("users")
+                                            .add(userr)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Toast.makeText(createAccountActivity.this, "Info added with unique ID", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(createAccountActivity.this, "Error adding information", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                     startActivity(intent);
                                     //updateUI(user);
                                 } else {
@@ -86,24 +103,6 @@ public class createAccountActivity extends AppCompatActivity
                             }
                         });
 
-
-                Map<String, Object> user = new HashMap<>();
-                user.put("email", emaill);
-                user.put("pass", passs);
-                db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(createAccountActivity.this, "Info added with unique ID", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(createAccountActivity.this, "Error adding information", Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
 
 
