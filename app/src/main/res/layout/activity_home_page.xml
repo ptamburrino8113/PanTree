@@ -4,71 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".home_page">
-
-    <Button
-        android:id="@+id/momButton"
-        android:layout_width="293dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#669349"
-        android:text="Bananas"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/dadButton"
-        android:layout_width="293dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#669349"
-        android:text="Yogurt"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.296"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/momButton" />
-
-    <Button
-        android:id="@+id/JaneButton"
-        android:layout_width="293dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#6D706B"
-        android:text="Cereal"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.296"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dadButton" />
-
-    <Button
-        android:id="@+id/johnButton"
-        android:layout_width="293dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#669349"
-        android:text="Apples"
-        android:textAlignment="viewStart"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.296"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JaneButton" />
 
     <Button
         android:id="@+id/homeButton"
@@ -111,5 +48,37 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/sharesButton" />
+
+    <EditText
+        android:id="@+id/ItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add Item Here" />
+
+
+    <Button
+        android:id="@+id/AddItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="161dp"
+        android:layout_marginBottom="638dp"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="406dp"
+        android:layout_height="518dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ListView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
