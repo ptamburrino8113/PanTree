@@ -21,6 +21,7 @@
         </activity>
         <activity
             android:name=".sharesActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".createAccountActivity"
@@ -30,6 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".home_page"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
