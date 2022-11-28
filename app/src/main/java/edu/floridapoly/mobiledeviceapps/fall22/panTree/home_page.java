@@ -14,32 +14,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.content.Intent;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class home_page extends AppCompatActivity {
 
     ListView listView;
     ArrayList<String> list;
     Button AddItem;
+    Button refreshbutton;
     EditText ItemName;
     ArrayAdapter<String> arrayAdapter;
     Button homeButton;
@@ -47,8 +45,19 @@ public class home_page extends AppCompatActivity {
     Button logoutButton;
     private FirebaseAuth mAuth;
     String email_user;
-    int ccounter = 0;
-    int list_counter = 0;
+
+    public int getCcounter() {
+        return ccounter;
+    }
+
+    public int setCcounter(int ccounter)
+    {
+        this.ccounter = ccounter;
+        return ccounter;
+    }
+
+    private int ccounter = 0;
+    int list_counter;
 
 
     // initialize home_page
@@ -59,10 +68,8 @@ public class home_page extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listview);
         AddItem = (Button) findViewById(R.id.AddItem);
+        refreshbutton = (Button) findViewById(R.id.refreshbutton);
         ItemName = (EditText) findViewById(R.id.ItemName);
-        list = new ArrayList<String>();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(arrayAdapter);
         Map<String, Object> lists = new HashMap<>();
         Map<String, Object> counter = new HashMap<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -74,6 +81,8 @@ public class home_page extends AppCompatActivity {
             System.out.println(email_user);
         }
 
+
+
         AddItem.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -82,33 +91,6 @@ public class home_page extends AppCompatActivity {
                 if (items.matches("")) {}
                 else
                 {
-                    DocumentReference docRef = db.collection("Counter").document(email_user);
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    int gg = document.getLong("counter").intValue();
-                                    ccounter = gg;
-                                    System.out.println("this is ccounter in counter get");
-                                    System.out.println(ccounter);
-                                    counter.put("counter", ccounter);
-                                    db.collection("Counter").document(email_user).update("counter", FieldValue.increment(1));
-
-
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                    counter.put("counter", 1);
-                                    db.collection("Counter").document(email_user).set(counter, SetOptions.merge());
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-
-                            }
-                        }
-                    });
-
                     DocumentReference doc2Ref = db.collection("Lists").document(email_user);
                     doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -116,30 +98,15 @@ public class home_page extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    System.out.println("this is list inside doc exists");
-                                    String s1 = String.valueOf(ccounter);
-                                    String s2 = ("list_item" + s1);
-                                    System.out.println(s2);
-                                    System.out.println(document.getData());
-                                    lists.put(s2, items);
-                                    db.collection("Lists").document(email_user).set(lists)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error writing document", e);
-                                                }
-                                            });
-
-
-                                } else {
+                                    Random r = new Random();
+                                    int i = r.nextInt(1000000 - 0);
+                                    String s1 = "list_item" + i;
+                                    lists.put(s1, items);
+                                    db.collection("Lists").document(email_user).update(lists);
+                                }
+                                else {
                                     Log.d(TAG, "No such document");
-                                    lists.put("list_item1", items);
+                                    lists.put("list_item0", items);
                                     db.collection("Lists").document(email_user).set(lists, SetOptions.merge());
                                 }
                             } else {
@@ -149,13 +116,11 @@ public class home_page extends AppCompatActivity {
                         }
                     });
                     ItemName.setText("");
-                    list.add(items);
-                    listView.setAdapter(arrayAdapter);
-                    arrayAdapter.notifyDataSetChanged();
-
                 }
+
             }
         });
+
 
 
         homeButton = findViewById(R.id.homeButton);
@@ -165,6 +130,35 @@ public class home_page extends AppCompatActivity {
                         "Home page where you can view your pantry items. A quantity will later be added to each",
                         Toast.LENGTH_LONG);
                 toast.show();
+            }
+        });
+
+        refreshbutton = findViewById(R.id.refreshbutton);
+        refreshbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                DocumentReference doc2Ref = db.collection("Lists").document(email_user);
+                doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                System.out.println(document.getData());
+                                //list = new ArrayList<String>((Collection<? extends String>) document.getData());
+                                //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                                //listView.setAdapter(arrayAdapter);
+                            }
+                            else {
+
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+
+                        }
+                    }
+                });
+
             }
         });
 
