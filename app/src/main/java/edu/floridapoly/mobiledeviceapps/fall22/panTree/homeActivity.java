@@ -66,7 +66,6 @@ public class homeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
         listView = (ListView) findViewById(R.id.listview);
         AddItem = (Button) findViewById(R.id.AddItem);
         refreshbutton = (Button) findViewById(R.id.refreshbutton);
@@ -84,7 +83,8 @@ public class homeActivity extends AppCompatActivity {
         AddItem.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String items = ItemName.getText().toString();
                 if (items.matches("")) {}
                 else
@@ -101,6 +101,7 @@ public class homeActivity extends AppCompatActivity {
                                     String s1 = "list_item" + i;
                                     lists.put(s1, items);
                                     db.collection("Lists").document(email_user).update(lists);
+                                    refreshbutton.callOnClick();
                                 }
                                 else {
                                     Log.d(TAG, "No such document");
@@ -115,6 +116,7 @@ public class homeActivity extends AppCompatActivity {
                     });
                     ItemName.setText("");
                 }
+
 
             }
         });
@@ -197,6 +199,7 @@ public class homeActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        refreshbutton.callOnClick();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
