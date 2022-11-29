@@ -171,6 +171,7 @@ public class sharesActivity extends AppCompatActivity {
                 if (acesscodeusertext.matches("")) {}
                 else
                 {
+                    //to commit
                     DocumentReference doc2Ref = db.collection("Access_codes").document(accesscode_me);
                     doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override

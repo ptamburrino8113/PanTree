@@ -7,6 +7,7 @@
     tools:context=".sharesActivity">
 
 
+    <!-- and ends with -->
     <Button
         android:id="@+id/homeButton"
         android:layout_width="80dp"
@@ -21,8 +22,7 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sharesButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/sharesButton"
@@ -37,8 +37,7 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-        app:layout_constraintStart_toEndOf="@+id/homeButton"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toEndOf="@+id/homeButton"/>
 
     <Button
         android:id="@+id/logoutButton"
@@ -54,8 +53,7 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharesButton"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toEndOf="@+id/sharesButton"/>
 
     <EditText
         android:id="@+id/accesscodetext"
@@ -79,7 +77,6 @@
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="8dp"
         android:text="Add Access Code"
-        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/refreshsharesbutton"
         app:layout_constraintTop_toBottomOf="@+id/accesscodetext" />
@@ -93,7 +90,6 @@
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="16dp"
         android:text="Refresh"
-        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
         app:layout_constraintEnd_toStartOf="@+id/adduserbutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accesscodetext" />
