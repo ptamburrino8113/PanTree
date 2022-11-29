@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class createAccountActivity extends AppCompatActivity
         System.out.println(email);
         System.out.println(pass);
 
+
         createAccountButton2.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -75,20 +77,8 @@ public class createAccountActivity extends AppCompatActivity
                                     Map<String, Object> userr = new HashMap<>();
                                     userr.put("email", emaill);
                                     userr.put("pass", passs);
+                                    db.collection("Users").document(user.getUid()).set(userr, SetOptions.merge());
 
-                                    db.collection("users")
-                                            .add(userr)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Toast.makeText(createAccountActivity.this, "Info added with unique ID", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(createAccountActivity.this, "Error adding information", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
                                     startActivity(intent);
                                     //updateUI(user);
                                 } else {

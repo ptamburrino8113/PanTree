@@ -1,19 +1,42 @@
 package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 public class sharesActivity extends AppCompatActivity {
 
@@ -21,13 +44,22 @@ public class sharesActivity extends AppCompatActivity {
     Button sharesButton;
     Button homeButton;
     Button logoutButton;
+    EditText accesscodetext;
+    Button refreshsharebutton;
+    Button adduserbutton;
+    ArrayList<String> list;
+    TextView accesscode;
     LinearLayout familyMembers;
+    private FirebaseAuth mAuth;
     // Initial test idea of having a text view count
     public int familyCount = 0;
     // Temporary first and last names to set the text view information as I couldn't
     // add it in the button press logic
     public String tempFName = "";
     public String tempLName = "";
+    String email_user;
+    String user_uid;
+    ListView listView;
 
     // Activity result launcher to get first and last name from "Add Family Member" activity
     // The goal is that once recieved, the first name and last name will populate the dynamically added
@@ -64,18 +96,113 @@ public class sharesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shares);
 
-        newUserButton = findViewById(R.id.newUserButton);
+        refreshsharebutton = findViewById(R.id.refreshsharesbutton);
+        accesscodetext = findViewById(R.id.accesscodetext);
+        accesscode = findViewById(R.id.accesscode);
         // LinearLayout the family members are being added to
-        familyMembers = findViewById(R.id.familyMembers);
+        adduserbutton = findViewById(R.id.adduserbutton);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        listView = (ListView) findViewById(R.id.sharelist);
+        Map<String, Object> lists = new HashMap<>();
+        Bundle extras = getIntent().getExtras();
+        mAuth = FirebaseAuth.getInstance();
 
-        // Button to send to addFamilyMembers activity
-        newUserButton = findViewById(R.id.newUserButton);
-        newUserButton.setOnClickListener(new View.OnClickListener(){
+        if (extras != null) {
+            email_user = extras.getString("email");
+            user_uid = extras.getString("uid_user");
+            System.out.println(email_user);
+        }
+
+        accesscode.setText(user_uid);
+
+
+
+        refreshsharebutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent newUserIntent = new Intent(sharesActivity.this, addFamilyMemberActivity.class);
-                familyCount++;
-                activityResultLauncher.launch(newUserIntent);
+                String accesscode_me = accesscode.getText().toString();
+                DocumentReference doc2Ref = db.collection("Access_codes").document(accesscode_me);
+                doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                System.out.println("Document data: "  + document.getData());
+
+                                System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
+                                Collection<Object> values = document.getData().values();
+//                                System.out.println("Values : " + values.toString());
+
+                                // create the string arraylist
+                                list = new ArrayList<String>();
+
+                                // loop over the objects in the collection and convert them to strings
+                                // then add them to the arraylist
+                                for(Object object : values){
+                                    list.add(object.toString());
+                                }
+                                System.out.println("list: " + list.toString());
+                                //update adapter
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                                listView.setAdapter(arrayAdapter);
+                            }
+                            else {
+
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+
+                        }
+                    }
+                });
+
+
+
+            }
+        });
+        adduserbutton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String acesscodeusertext = accesscodetext.getText().toString();
+                String accesscode_me = accesscode.getText().toString();
+                if (acesscodeusertext.matches("")) {}
+                else
+                {
+                    DocumentReference doc2Ref = db.collection("Access_codes").document(accesscode_me);
+                    doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Random r = new Random();
+                                    int i = r.nextInt(1000000 - 0);
+                                    String s1 = "code_" + i;
+                                    lists.put(s1, acesscodeusertext);
+                                    db.collection("Access_codes").document(accesscode_me).update(lists);
+                                    refreshsharebutton.callOnClick();
+                                }
+                                else {
+                                    Log.d(TAG, "No such document");
+                                    lists.put("code_0", acesscodeusertext);
+                                    db.collection("Access_codes").document(accesscode_me).set(lists, SetOptions.merge());
+                                    refreshsharebutton.callOnClick();
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+
+                            }
+                        }
+                    });
+                    accesscodetext.setText("");
+                }
+
+
             }
         });
 
@@ -127,5 +254,15 @@ public class sharesActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshsharebutton.callOnClick();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.reload();
+        }
     }
 }

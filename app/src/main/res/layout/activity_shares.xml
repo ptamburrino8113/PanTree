@@ -7,41 +7,29 @@
     tools:context=".sharesActivity">
 
 
-
-    <Button
-        android:id="@+id/newUserButton"
-        android:layout_width="145dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="133dp"
-        android:layout_marginEnd="133dp"
-        android:layout_marginBottom="35dp"
-        android:backgroundTint="#669349"
-        android:text="New User"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        app:layout_constraintBottom_toTopOf="@+id/sharesButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/homeButton"
         android:layout_width="80dp"
         android:layout_height="52dp"
         android:layout_marginStart="64dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#6D706B"
         android:text="Home"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/sharesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
 
     <Button
         android:id="@+id/sharesButton"
         android:layout_width="95dp"
         android:layout_height="52dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="21dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#669349"
         android:text="Shares"
@@ -49,13 +37,15 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-        app:layout_constraintStart_toEndOf="@+id/homeButton" />
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="95dp"
         android:layout_height="52dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#1365A6"
@@ -64,20 +54,73 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharesButton" />
+        app:layout_constraintStart_toEndOf="@+id/sharesButton"
+        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
 
-    <LinearLayout
-        android:id="@+id/familyMembers"
-        android:layout_width="409dp"
-        android:layout_height="540dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
+    <EditText
+        android:id="@+id/accesscodetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Access Code"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/refreshsharesbutton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/adduserbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginBottom="8dp"
+        android:text="Add Access Code"
+        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/refreshsharesbutton"
+        app:layout_constraintTop_toBottomOf="@+id/accesscodetext" />
 
+    <Button
+        android:id="@+id/refreshsharesbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="16dp"
+        android:text="Refresh"
+        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
+        app:layout_constraintEnd_toStartOf="@+id/adduserbutton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accesscodetext" />
 
-    </LinearLayout>
+    <ListView
+        android:id="@+id/sharelist"
+        android:layout_width="409dp"
+        android:layout_height="420dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adduserbutton" />
+
+    <TextView
+        android:id="@+id/accesscode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="2dp"
+        android:text="default"
+        app:layout_constraintBottom_toTopOf="@+id/sharelist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accesscodetext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
