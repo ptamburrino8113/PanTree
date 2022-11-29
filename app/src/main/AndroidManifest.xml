@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PanTree"
         tools:targetApi="31">
         <activity
-            android:name=".addFamilyMember"
+            android:name=".addFamilyMemberActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -30,7 +30,7 @@
             android:name=".forgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".home_page"
+            android:name=".homeActivity"
             android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity

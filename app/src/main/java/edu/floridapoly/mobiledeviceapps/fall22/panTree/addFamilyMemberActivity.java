@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class addFamilyMember extends AppCompatActivity {
+public class addFamilyMemberActivity extends AppCompatActivity {
 
     Button enterButton;
     EditText firstName;

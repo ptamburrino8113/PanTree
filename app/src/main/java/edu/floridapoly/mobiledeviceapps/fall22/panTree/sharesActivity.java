@@ -73,7 +73,7 @@ public class sharesActivity extends AppCompatActivity {
         newUserButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent newUserIntent = new Intent(sharesActivity.this, addFamilyMember.class);
+                Intent newUserIntent = new Intent(sharesActivity.this, addFamilyMemberActivity.class);
                 familyCount++;
                 activityResultLauncher.launch(newUserIntent);
             }
@@ -113,7 +113,7 @@ public class sharesActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(sharesActivity.this, home_page.class);
+                Intent intent = new Intent(sharesActivity.this, homeActivity.class);
                 startActivity(intent);
             }
         });

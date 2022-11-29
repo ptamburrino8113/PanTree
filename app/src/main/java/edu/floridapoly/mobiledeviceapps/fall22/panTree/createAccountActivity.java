@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,8 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +70,7 @@ public class createAccountActivity extends AppCompatActivity
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Toast.makeText(createAccountActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(createAccountActivity.this, home_page.class);
+                                    Intent intent = new Intent(createAccountActivity.this, homeActivity.class);
                                     intent.putExtra("email", emaill);
                                     Map<String, Object> userr = new HashMap<>();
                                     userr.put("email", emaill);

@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -30,9 +29,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-public class home_page extends AppCompatActivity {
+public class homeActivity extends AppCompatActivity {
 
     ListView listView;
     ArrayList<String> list;
@@ -76,12 +77,9 @@ public class home_page extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mAuth = FirebaseAuth.getInstance();
         if (extras != null) {
-            String emailtext = extras.getString("email");
-            email_user = emailtext;
+            email_user = extras.getString("email");
             System.out.println(email_user);
         }
-
-
 
         AddItem.setOnClickListener(new View.OnClickListener()
         {
@@ -144,10 +142,23 @@ public class home_page extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                System.out.println(document.getData());
-                                //list = new ArrayList<String>((Collection<? extends String>) document.getData());
-                                //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-                                //listView.setAdapter(arrayAdapter);
+                                System.out.println("Document data: "  + document.getData());
+                                System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
+                                Collection<Object> values = document.getData().values();
+//                                System.out.println("Values : " + values.toString());
+
+                                // create the string arraylist
+                                list = new ArrayList<String>();
+
+                                // loop over the objects in the collection and convert them to strings
+                                // then add them to the arraylist
+                                for(Object object : values){
+                                    list.add(object.toString());
+                                }
+                                System.out.println("list: " + list.toString());
+                                //update adapter
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                                listView.setAdapter(arrayAdapter);
                             }
                             else {
 
@@ -165,7 +176,7 @@ public class home_page extends AppCompatActivity {
         sharesButton = findViewById(R.id.sharesButton);
         sharesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(home_page.this, sharesActivity.class);
+                Intent intent = new Intent(homeActivity.this, sharesActivity.class);
                 startActivity(intent);
             }
         });

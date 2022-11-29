@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".home_page">
+    tools:context=".homeActivity">
 
     <Button
         android:id="@+id/homeButton"
