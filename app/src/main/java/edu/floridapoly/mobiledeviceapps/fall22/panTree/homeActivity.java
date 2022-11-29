@@ -143,9 +143,12 @@ public class homeActivity extends AppCompatActivity {
         refreshbutton = findViewById(R.id.refreshbutton);
         refreshbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-
+                list = new ArrayList<String>();
                 DocumentReference doc3Ref = db.collection("Access_codes").document(uid_user);
+                System.out.println("uid: " + uid_user);
+                System.out.println("uid: " + uid_user);
+                System.out.println("uid: " + uid_user);
+
                 doc3Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -159,7 +162,7 @@ public class homeActivity extends AppCompatActivity {
 //                                System.out.println("Values : " + values.toString());
 
                                 // create the string arraylist
-                                list = new ArrayList<String>();
+
 
                                 // loop over the objects in the collection and convert them to strings
                                 // then add them to the arraylist
@@ -177,7 +180,7 @@ public class homeActivity extends AppCompatActivity {
                                                     System.out.println("Document data: "  + document.getData());
                                                     System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
                                                     Collection<Object> values = document.getData().values();
-//                                System.out.println("Values : " + values.toString());
+//                                System.out.println("Values : " + valuvves.toString());
 
                                                     // create the string arraylist
                                                     //list = new ArrayList<String>();
@@ -203,10 +206,6 @@ public class homeActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-
-
-
-
                                 }
 
                             }
@@ -220,34 +219,40 @@ public class homeActivity extends AppCompatActivity {
                     }
                 });
 
+//                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
 
-
-
+                System.out.println("1 self print");
                 DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
                 doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        System.out.println("2 self print");
                         if (task.isSuccessful()) {
+                            System.out.println("3 self print");
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                System.out.println("4 self print");
                                 System.out.println("Document data: "  + document.getData());
                                 System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
                                 Collection<Object> values = document.getData().values();
 //                                System.out.println("Values : " + values.toString());
 
                                 // create the string arraylist
-                                list = new ArrayList<String>();
+//                                list = new ArrayList<String>();
 
                                 // loop over the objects in the collection and convert them to strings
                                 // then add them to the arraylist
                                 for(Object object : values){
                                     list.add(object.toString());
+                                    System.out.println("self print: " + object.toString());
                                 }
+                                System.out.println("5 self print");
                                 Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
                                 System.out.println("list: " + list.toString());
                                 //update adapter
-                                //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
                                 listView.setAdapter(arrayAdapter);
+                                System.out.println("6 self print");
                             }
                             else {
 
