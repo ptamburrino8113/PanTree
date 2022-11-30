@@ -120,8 +120,6 @@ public class sharesActivity extends AppCompatActivity {
                                             Log.d(TAG, "get failed with ", task2.getException());
                                         }
                             });
-
-
                         }
                         System.out.println("Access_codes list: " + accessCodesList.toString());
                         //update adapter
@@ -210,10 +208,9 @@ public class sharesActivity extends AppCompatActivity {
                     (dialog, which) -> {
                         System.out.println("Trigger delete event for code Field_name: " + code.getField_name());
                         DocumentReference docRef = db.collection("Access_codes").document(user_uid);
-                        // Remove the 'capital' field from the document
+
                         Map<String,Object> updates = new HashMap<>();
 
-                        //
                         updates.put(code.getField_name(), FieldValue.delete());
 
                         docRef.update(updates).addOnCompleteListener(task -> {
