@@ -29,15 +29,14 @@
         android:layout_width="95dp"
         android:layout_height="52dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="21dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#669349"
-        android:text="Shares"
+        android:text="Codes"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-        app:layout_constraintStart_toEndOf="@+id/homeButton"/>
+        app:layout_constraintStart_toEndOf="@+id/homeButton" />
 
     <Button
         android:id="@+id/logoutButton"

@@ -3,12 +3,15 @@ package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -31,15 +35,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
 public class homeActivity extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<String> items_list;
+    ArrayList<ItemObject> items_list;
     Button AddItem;
     Button refreshbutton;
     EditText ItemName;
-    ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<ItemObject> arrayAdapter;
     Button homeButton;
     Button sharesButton;
     Button logoutButton;
@@ -72,36 +77,34 @@ public class homeActivity extends AppCompatActivity {
         AddItem.setOnClickListener(view -> {
             String items = ItemName.getText().toString();
             //TODO: what does this if statement do??
-            if (items.matches("")) {
+            if (items.matches(""))
+                return;
 
-            }
-            else
-            {
-                DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
-                doc2Ref.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Random r = new Random();
-                            int i = r.nextInt(1000000);
-                            String s1 = "list_item" + i;
-                            lists.put(s1, items);
-                            db.collection("Lists").document(uid_user).update(lists);
-                            refreshbutton.callOnClick();
-                        }
-                        else {
-                            Log.d(TAG, "No such document");
-                            lists.put("list_item0", items);
-                            db.collection("Lists").document(uid_user).set(lists, SetOptions.merge());
-                            refreshbutton.callOnClick();
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-
+            DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
+            doc2Ref.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Random r = new Random();
+                        int i = r.nextInt(1000000);
+                        String s1 = "list_item" + i;
+                        lists.put(s1, items);
+                        db.collection("Lists").document(uid_user).update(lists);
+                        refreshbutton.callOnClick();
                     }
-                });
-                ItemName.setText("");
-            }
+                    else {
+                        Log.d(TAG, "No such document");
+                        lists.put("list_item0", items);
+                        db.collection("Lists").document(uid_user).set(lists, SetOptions.merge());
+                        refreshbutton.callOnClick();
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+
+                }
+            });
+            ItemName.setText("");
+
         });
 
         homeButton = findViewById(R.id.homeButton);
@@ -112,11 +115,6 @@ public class homeActivity extends AppCompatActivity {
             toast.show();
         });
 
-        /* TODO: Implementation for the refresh could change for how we display lists
-            - If we make a document for the access_code when we create the account,
-            we could add ourselves to the list and then just use the first loop to grab everything
-            instead of using two loops (one loop for everyone else list, one loop for ourself)
-         */
         refreshbutton = findViewById(R.id.refreshbutton);
         refreshbutton.setOnClickListener(view -> {
             items_list = new ArrayList<>();
@@ -130,31 +128,56 @@ public class homeActivity extends AppCompatActivity {
                     if (document.exists()) {
                         System.out.println("UID data: "  + document.getData());
                         System.out.println("UID data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
-                        Collection<Object> uidList = document.getData().values();
+                        // get all the UIDs in the access code document
+                        Collection<Object> uidCollection = document.getData().values();
+
+                        // convert it to an arraylist
+                        ArrayList<String> uidList = new ArrayList<>();
+                        for(Object uidCollectionObject : uidCollection){
+                            uidList.add(uidCollectionObject.toString());
+                        }
+
+                        // add self UID to the list since the user isn't (shouldn't) be inside their own share list
+                        if(!uidList.contains(uid_user)) {
+                            uidList.add(uid_user);
+                        }
 
                         // loop over the objects in the collection and convert them to strings
                         // then add them to the arraylist
                         for(Object uid_object : uidList){
                             System.out.println("Access_codes UID item: " + uid_object.toString());
 
-
                             DocumentReference doc2Ref = db.collection("Lists").document(uid_object.toString());
                             doc2Ref.get().addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
                                     DocumentSnapshot document1 = task1.getResult();
                                     if (document1.exists()) {
-                                        System.out.println("Others item list data: "  + document1.getData());
-                                        System.out.println("Others item list type: "  + Objects.requireNonNull(document1.getData()).getClass().getName());
-                                        Collection<Object> items_collection = document1.getData().values();
+                                        System.out.println("Item list data: "  + document1.getData());
+//                                        System.out.println("Item list type: "  + Objects.requireNonNull(document1.getData()).getClass().getName());
 
-                                        // loop over the objects in the collection and convert them to strings
-                                        // then add them to the arraylist
-                                        for(Object item : items_collection){
-                                            items_list.add(item.toString());
+                                        // get the values of all of the fields and convert to array for ease
+                                        Collection<Object> items_collection_values = Objects.requireNonNull(document1.getData()).values();
+                                        ArrayList<Object> items_collection = new ArrayList<>(items_collection_values);
+                                        System.out.println("items_collection: " + items_collection);
+
+                                        // get the field names and convert to array for ease
+                                        Set<String> items_keys_set = document1.getData().keySet();
+                                        ArrayList<String> items_keys = new ArrayList<>(items_keys_set);
+                                        System.out.println("items_keys: " + items_keys);
+
+                                        // loop over the objects in the collection
+                                        // and create a new ItemObject with the values of:
+                                        // - UID (this is the document name)
+                                        // - Field_name (the name of the field for that item)
+                                        // - Name (name of the item i.e "bananas")
+                                        for(int i = 0; i < items_collection.size(); i++){
+                                            items_list.add(new ItemObject(uid_object.toString(), items_keys.get(i), items_collection.get(i).toString()));
                                         }
-                                        Collections.sort(items_list, String.CASE_INSENSITIVE_ORDER);
-                                        System.out.println("Others items list: " + items_list.toString());
                                         //update adapter
+                                        Collections.sort(items_list, (i1, i2) -> {
+                                            return i1.getName().compareTo(i2.getName());
+                                        });
+                                        System.out.println("Items list: " + items_list.toString());
                                         arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items_list);
 
                                         listView.setAdapter(arrayAdapter);
@@ -165,41 +188,80 @@ public class homeActivity extends AppCompatActivity {
                             });
                         }
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    else { // If the access code list does not exist, just get the users self list
+                        System.out.println("Getting self list since access code list does not exist");
+                        DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
+                        doc2Ref.get().addOnCompleteListener(selfTask -> {
+                            if (selfTask.isSuccessful()) {
+                                DocumentSnapshot selfListDocument = selfTask.getResult();
+                                if (selfListDocument.exists()) {
+                                    System.out.println("Self list data: "  + selfListDocument.getData());
+//                                    System.out.println("Self list data type: "  + Objects.requireNonNull(selfListDocument.getData()).getClass().getName());
+                                    // get the values of all of the fields and convert to array for ease
+                                    Collection<Object> items_collection_values = Objects.requireNonNull(selfListDocument.getData()).values();
+                                    ArrayList<Object> items_collection = new ArrayList<>(items_collection_values);
+                                    System.out.println("Self items_collection: " + items_collection);
 
-                }
-            });
+                                    // get the field names and convert to array for ease
+                                    Set<String> items_keys_set = selfListDocument.getData().keySet();
+                                    ArrayList<String> items_keys = new ArrayList<>(items_keys_set);
+                                    System.out.println("Self items_keys: " + items_keys);
+                                    // loop over the objects in the collection
+                                    // and create a new ItemObject with the values of:
+                                    // - UID (this is the document name)
+                                    // - Field_name (the name of the field for that item)
+                                    // - Name (name of the item i.e "bananas")
+                                    for(int i = 0; i < items_collection.size(); i++){
+                                        items_list.add(new ItemObject(uid_user, items_keys.get(i), items_collection.get(i).toString()));
+                                    }
 
+                                    // sort the list with custom comparator (could maybe update this, but it requires api ver 24 instead of 21)
+                                    Collections.sort(items_list, (i1, i2) -> {
+                                        return i1.getName().compareTo(i2.getName());
+                                    });
+                                    System.out.println("Self item list: " + homeActivity.this.items_list.toString());
+                                    //update adapter
+                                    arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, homeActivity.this.items_list);
+                                    listView.setAdapter(arrayAdapter);
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", selfTask.getException());
+                            }
+                        });
 
-            // Get the list of the current user
-            // This will run no matter what, even if the user does not have a document in the shared access code table in the DB
-            DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
-            doc2Ref.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        System.out.println("Self list data: "  + document.getData());
-                        System.out.println("Self list data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
-                        Collection<Object> items_collection = document.getData().values();
-
-                        // loop over the objects in the collection and convert them to strings
-                        // then add them to the arraylist
-                        for(Object item : items_collection){
-                            homeActivity.this.items_list.add(item.toString());
-                        }
-                        Collections.sort(homeActivity.this.items_list, String.CASE_INSENSITIVE_ORDER);
-                        System.out.println("Self item list: " + homeActivity.this.items_list.toString());
-                        //update adapter
-                        arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, homeActivity.this.items_list);
-                        listView.setAdapter(arrayAdapter);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
-
                 }
             });
+        });
 
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            ItemObject item = (ItemObject) listView.getItemAtPosition(position);
+            System.out.println("SELECTED ITEM NAME: " + item.getName());
+            System.out.println("SELECTED ITEM FIELD_NAME: " + item.getField_name());
+            System.out.println("SELECTED ITEM PARENT DOC: " + item.getParent_document());
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle("Delete " + item.getName() + "?");
+            builder.setMessage("Are you sure you want to delete '" + item.getName() + "'?");
+            builder.setPositiveButton("Confirm",
+                    (dialog, which) -> {
+                        System.out.println("Trigger delete event for item Field_name: " + item.getField_name());
+                        DocumentReference docRef = db.collection("Lists").document(item.getParent_document());
+                        // Remove the 'capital' field from the document
+                        Map<String,Object> updates = new HashMap<>();
+                        updates.put(item.getField_name(), FieldValue.delete());
+
+                        docRef.update(updates).addOnCompleteListener(task -> {
+                            System.out.println("ITEM DELETED WITH NAME: " + item.getName() + ", FIELD_NAME: " + item.getField_name());
+                            refreshbutton.callOnClick();
+                        });
+                    });
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> System.out.println("Cancelled deletion event"));
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         sharesButton = findViewById(R.id.sharesButton);
