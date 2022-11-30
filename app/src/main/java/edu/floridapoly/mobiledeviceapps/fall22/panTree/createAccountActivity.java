@@ -27,12 +27,9 @@ import java.util.Map;
 
 public class createAccountActivity extends AppCompatActivity
 {
-
     Button createAccountButton2;
     Button backButton2;
     private FirebaseAuth mAuth;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,7 +47,6 @@ public class createAccountActivity extends AppCompatActivity
         EditText pass = findViewById(R.id.editTextPassword2);
         System.out.println(email);
         System.out.println(pass);
-
 
         createAccountButton2.setOnClickListener(view -> {
             String emaill = email .getText().toString().trim();
@@ -81,16 +77,11 @@ public class createAccountActivity extends AppCompatActivity
                             //updateUI(null);
                         }
                     });
-
         });
-
 
         backButton2.setOnClickListener(view -> {
             Intent intent = new Intent(createAccountActivity.this, loginActivity.class);
             startActivity(intent);
         });
-
-
     }
-
 }

@@ -45,21 +45,6 @@ public class homeActivity extends AppCompatActivity {
     Button logoutButton;
     private FirebaseAuth mAuth;
     String email_user;
-    String unique_code;
-
-    public int getCcounter() {
-        return ccounter;
-    }
-
-    public int setCcounter(int ccounter)
-    {
-        this.ccounter = ccounter;
-        return ccounter;
-    }
-
-    private int ccounter = 0;
-    int list_counter;
-
 
     // initialize home_page
     @Override
@@ -119,8 +104,6 @@ public class homeActivity extends AppCompatActivity {
             }
         });
 
-
-
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(view -> {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -133,14 +116,12 @@ public class homeActivity extends AppCompatActivity {
             - If we make a document for the access_code when we create the account,
             we could add ourselves to the list and then just use the first loop to grab everything
             instead of using two loops (one loop for everyone else list, one loop for ourself)
-
-
          */
         refreshbutton = findViewById(R.id.refreshbutton);
         refreshbutton.setOnClickListener(view -> {
             items_list = new ArrayList<>();
             DocumentReference doc3Ref = db.collection("Access_codes").document(uid_user);
-            System.out.println("UID: " + uid_user);
+            System.out.println("Self UID: " + uid_user);
 
             doc3Ref.get().addOnCompleteListener(task -> {
                 //to commit
@@ -150,14 +131,11 @@ public class homeActivity extends AppCompatActivity {
                         System.out.println("UID data: "  + document.getData());
                         System.out.println("UID data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
                         Collection<Object> uidList = document.getData().values();
-//                                System.out.println("Values : " + values.toString());
-
-                        // create the string arraylist
 
                         // loop over the objects in the collection and convert them to strings
                         // then add them to the arraylist
                         for(Object uid_object : uidList){
-                            System.out.println(uid_object.toString());
+                            System.out.println("Access_codes UID item: " + uid_object.toString());
 
 
                             DocumentReference doc2Ref = db.collection("Lists").document(uid_object.toString());
@@ -165,8 +143,8 @@ public class homeActivity extends AppCompatActivity {
                                 if (task1.isSuccessful()) {
                                     DocumentSnapshot document1 = task1.getResult();
                                     if (document1.exists()) {
-                                        System.out.println("Document data: "  + document1.getData());
-                                        System.out.println("Document data type: "  + Objects.requireNonNull(document1.getData()).getClass().getName());
+                                        System.out.println("Others item list data: "  + document1.getData());
+                                        System.out.println("Others item list type: "  + Objects.requireNonNull(document1.getData()).getClass().getName());
                                         Collection<Object> items_collection = document1.getData().values();
 
                                         // loop over the objects in the collection and convert them to strings
@@ -175,7 +153,7 @@ public class homeActivity extends AppCompatActivity {
                                             items_list.add(item.toString());
                                         }
                                         Collections.sort(items_list, String.CASE_INSENSITIVE_ORDER);
-                                        System.out.println("items list: " + items_list.toString());
+                                        System.out.println("Others items list: " + items_list.toString());
                                         //update adapter
                                         arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items_list);
 
@@ -194,31 +172,27 @@ public class homeActivity extends AppCompatActivity {
             });
 
 
+            // Get the list of the current user
+            // This will run no matter what, even if the user does not have a document in the shared access code table in the DB
             DocumentReference doc2Ref = db.collection("Lists").document(uid_user);
             doc2Ref.get().addOnCompleteListener(task -> {
-                System.out.println("2 self print");
                 if (task.isSuccessful()) {
-                    System.out.println("3 self print");
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        System.out.println("4 self print");
-                        System.out.println("Document data: "  + document.getData());
-                        System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
+                        System.out.println("Self list data: "  + document.getData());
+                        System.out.println("Self list data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
                         Collection<Object> items_collection = document.getData().values();
 
                         // loop over the objects in the collection and convert them to strings
                         // then add them to the arraylist
                         for(Object item : items_collection){
                             homeActivity.this.items_list.add(item.toString());
-                            System.out.println("self print: " + item);
                         }
-                        System.out.println("5 self print");
                         Collections.sort(homeActivity.this.items_list, String.CASE_INSENSITIVE_ORDER);
-                        System.out.println("list: " + homeActivity.this.items_list.toString());
+                        System.out.println("Self item list: " + homeActivity.this.items_list.toString());
                         //update adapter
                         arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, homeActivity.this.items_list);
                         listView.setAdapter(arrayAdapter);
-                        System.out.println("6 self print");
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());

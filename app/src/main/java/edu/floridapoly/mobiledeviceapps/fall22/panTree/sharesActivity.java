@@ -30,8 +30,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class sharesActivity extends AppCompatActivity {
-
-    Button newUserButton;
     Button sharesButton;
     Button homeButton;
     Button logoutButton;
@@ -40,14 +38,7 @@ public class sharesActivity extends AppCompatActivity {
     Button adduserbutton;
     ArrayList<String> accessCodesList;
     TextView accesscode;
-    LinearLayout familyMembers;
     private FirebaseAuth mAuth;
-    // Initial test idea of having a text view count
-    public int familyCount = 0;
-    // Temporary first and last names to set the text view information as I couldn't
-    // add it in the button press logic
-    public String tempFName = "";
-    public String tempLName = "";
     String email_user;
     String user_uid;
     ListView listView;
