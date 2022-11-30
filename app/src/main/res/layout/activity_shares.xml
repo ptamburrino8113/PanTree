@@ -10,50 +10,55 @@
     <!-- and ends with -->
     <Button
         android:id="@+id/homeButton"
-        android:layout_width="80dp"
-        android:layout_height="52dp"
+        android:layout_width="106dp"
+        android:layout_height="64dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="631dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
-        android:backgroundTint="#6D706B"
+        android:backgroundTint="#669349"
         android:text="Home"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sharesButton"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/sharesButton"
-        android:layout_width="95dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="21dp"
+        android:layout_width="106dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="631dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="48dp"
-        android:backgroundTint="#669349"
+        android:backgroundTint="#6D706B"
         android:text="Shares"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-        app:layout_constraintStart_toEndOf="@+id/homeButton"/>
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="95dp"
-        android:layout_height="52dp"
+        android:id="@+id/settingsButton"
+        android:layout_width="121dp"
+        android:layout_height="62dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="631dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#1365A6"
-        android:text="Logout"
+        android:text="Settings"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharesButton"/>
+        app:layout_constraintStart_toEndOf="@+id/sharesButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/accesscodetext"

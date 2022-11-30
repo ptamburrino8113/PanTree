@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,11 +43,12 @@ public class homeActivity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     Button homeButton;
     Button sharesButton;
-    Button logoutButton;
+    Button settingsButton;
     private FirebaseAuth mAuth;
     String email_user;
 
     // initialize home_page
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,10 +212,10 @@ public class homeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(view -> {
-            //Intent intent = new Intent(home_page.this, MainActivity.class);
-            //startActivity(intent);
+        settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(homeActivity.this, settingActivity.class);
+            startActivity(intent);
         });
     }
 
