@@ -2,18 +2,11 @@ package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,7 +38,7 @@ public class sharesActivity extends AppCompatActivity {
     EditText accesscodetext;
     Button refreshsharebutton;
     Button adduserbutton;
-    ArrayList<String> list;
+    ArrayList<String> accessCodesList;
     TextView accesscode;
     LinearLayout familyMembers;
     private FirebaseAuth mAuth;
@@ -60,36 +51,6 @@ public class sharesActivity extends AppCompatActivity {
     String email_user;
     String user_uid;
     ListView listView;
-
-    // Activity result launcher to get first and last name from "Add Family Member" activity
-    // The goal is that once recieved, the first name and last name will populate the dynamically added
-    // TextView on line 93 and a family member will be added
-    // Planning to add a "-" button to remove a family member
-    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent returnIntent = result.getData();
-                        boolean enter = returnIntent.getBooleanExtra("Entered",false);
-                        String fName = returnIntent.getStringExtra("FirstName");
-                        String lName = returnIntent.getStringExtra("LastName");
-                        if (enter)
-                        {
-                            // Initial test with toast message to verify it's getting a return value
-                            Toast.makeText(getBaseContext(),"Retured from addFamilyMember, Recieved: Entered",Toast.LENGTH_LONG).show();
-                            // Return values from addFamilyMember
-                            tempFName = fName;
-                            tempLName = lName;
-                        }
-                        else
-                        {
-                            //do nothing
-                        }
-                    }
-                }
-            });
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +63,7 @@ public class sharesActivity extends AppCompatActivity {
         // LinearLayout the family members are being added to
         adduserbutton = findViewById(R.id.adduserbutton);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        listView = (ListView) findViewById(R.id.sharelist);
+        listView = findViewById(R.id.sharelist);
         Map<String, Object> lists = new HashMap<>();
         Bundle extras = getIntent().getExtras();
         mAuth = FirebaseAuth.getInstance();
@@ -115,144 +76,91 @@ public class sharesActivity extends AppCompatActivity {
 
         accesscode.setText(user_uid);
 
+        refreshsharebutton.setOnClickListener(view -> {
+            String accessCodeSelf = accesscode.getText().toString();
+            DocumentReference doc2Ref = db.collection("Access_codes").document(accessCodeSelf);
+            doc2Ref.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        System.out.println("Access_codes data: "  + document.getData());
 
+                        System.out.println("Access_codes data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
+                        Collection<Object> values = document.getData().values();
 
-        refreshsharebutton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String accesscode_me = accesscode.getText().toString();
-                DocumentReference doc2Ref = db.collection("Access_codes").document(accesscode_me);
-                doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                System.out.println("Document data: "  + document.getData());
+                        // create the string arraylist
+                        accessCodesList = new ArrayList<>();
 
-                                System.out.println("Document data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
-                                Collection<Object> values = document.getData().values();
-//                                System.out.println("Values : " + values.toString());
-
-                                // create the string arraylist
-                                list = new ArrayList<String>();
-
-                                // loop over the objects in the collection and convert them to strings
-                                // then add them to the arraylist
-                                for(Object object : values){
-                                    list.add(object.toString());
-                                }
-                                System.out.println("list: " + list.toString());
-                                //update adapter
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-                                listView.setAdapter(arrayAdapter);
-                            }
-                            else {
-
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-
+                        // loop over the objects in the collection and convert them to strings
+                        // then add them to the arraylist
+                        for(Object object : values){
+                            accessCodesList.add(object.toString());
                         }
+                        System.out.println("Access_codes list: " + accessCodesList.toString());
+                        //update adapter
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, accessCodesList);
+                        listView.setAdapter(arrayAdapter);
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            });
+        });
+        adduserbutton.setOnClickListener(view -> {
+            String accessCodeValue = accesscodetext.getText().toString();
+            String accessCodeSelf = accesscode.getText().toString();
+            // TODO: what does this if statement do??
+            if (accessCodeValue.matches("")) {}
+            else
+            {
+                //to commit
+                DocumentReference doc2Ref = db.collection("Access_codes").document(accessCodeSelf);
+                doc2Ref.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Random r = new Random();
+                            int i = r.nextInt(1000000);
+                            String s1 = "code_" + i;
+                            lists.put(s1, accessCodeValue);
+                            db.collection("Access_codes").document(accessCodeSelf).update(lists);
+                            refreshsharebutton.callOnClick();
+                        }
+                        else {
+                            Log.d(TAG, "No such document");
+                            lists.put("code_0", accessCodeValue);
+                            db.collection("Access_codes").document(accessCodeSelf).set(lists, SetOptions.merge());
+                            refreshsharebutton.callOnClick();
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
                     }
                 });
-
-
-
+                accesscodetext.setText("");
             }
+
+
         });
-        adduserbutton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                String acesscodeusertext = accesscodetext.getText().toString();
-                String accesscode_me = accesscode.getText().toString();
-                if (acesscodeusertext.matches("")) {}
-                else
-                {
-                    //to commit
-                    DocumentReference doc2Ref = db.collection("Access_codes").document(accesscode_me);
-                    doc2Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Random r = new Random();
-                                    int i = r.nextInt(1000000 - 0);
-                                    String s1 = "code_" + i;
-                                    lists.put(s1, acesscodeusertext);
-                                    db.collection("Access_codes").document(accesscode_me).update(lists);
-                                    refreshsharebutton.callOnClick();
-                                }
-                                else {
-                                    Log.d(TAG, "No such document");
-                                    lists.put("code_0", acesscodeusertext);
-                                    db.collection("Access_codes").document(accesscode_me).set(lists, SetOptions.merge());
-                                    refreshsharebutton.callOnClick();
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-
-                            }
-                        }
-                    });
-                    accesscodetext.setText("");
-                }
-
-
-            }
-        });
-
-        // Logic to handle dynamically creating a TextView when a family member was added, not fully
-        // completed just a test currently
-
-        // As of now the text view being added isn't happening when returning from addFamilyMembers. I
-        // believe it's because the method is running in the onCreate phase and the execution order hasn't
-        // recieved the return information from addFamilyMembers, but I didn't have time to test it in this build
-
-        // These can also be buttons if we were to add an information screen for each family member
-        // If anyone can think of/find a better way to do this please go ahead
-        if (familyCount>0) {
-            TextView tv = new TextView(this);
-            // To my understanding is setting default parameters of the linear layout
-            tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            // After default parameters are set we can edit the dynamically created Text View's attributes and then display it
-            tv.setText(tempFName);
-            // Haven't figured out how to change parameters of the text view to match the demo view in activity_shares.xml
-            this.familyMembers.addView(tv);
-        }
 
         sharesButton = findViewById(R.id.sharesButton);
-        sharesButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "This button will take the user to the shares page to see family members",
-                        Toast.LENGTH_LONG);
-                toast.show();
-            }
+        sharesButton.setOnClickListener(view -> {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "This button will take the user to the shares page to see family members",
+                    Toast.LENGTH_LONG);
+            toast.show();
         });
 
         homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(sharesActivity.this, homeActivity.class);
-                startActivity(intent);
-            }
+        homeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(sharesActivity.this, homeActivity.class);
+            startActivity(intent);
         });
 
         logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(sharesActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        logoutButton.setOnClickListener(view -> {
+            Intent intent = new Intent(sharesActivity.this, loginActivity.class);
+            startActivity(intent);
         });
 
     }
