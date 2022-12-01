@@ -6,11 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -104,6 +106,8 @@ public class homeActivity extends AppCompatActivity {
                 }
             });
             ItemName.setText("");
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
         });
 
@@ -272,11 +276,11 @@ public class homeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(view -> {
+       // logoutButton = findViewById(R.id.logoutButton);
+        //logoutButton.setOnClickListener(view -> {
             //Intent intent = new Intent(home_page.this, MainActivity.class);
             //startActivity(intent);
-        });
+        //});
     }
 
     @Override
