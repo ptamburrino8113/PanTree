@@ -33,7 +33,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#6D706B"
-        android:text="Shares"
+        android:text="Codes"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,6 +74,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/logoutb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="526dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
