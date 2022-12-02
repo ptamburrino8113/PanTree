@@ -1,11 +1,13 @@
 package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -15,6 +17,8 @@ public class settingActivity extends AppCompatActivity {
     Button sharesButton;
     //Button settingsButton;
     Button logoutbutton;
+    Button btnToggleDark;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class settingActivity extends AppCompatActivity {
 
         sharesButton = findViewById(R.id.sharesButton);
         logoutbutton = findViewById(R.id.logoutb);
+        btnToggleDark = findViewById(R.id.switch1);
+
+
         sharesButton.setOnClickListener(view -> {
             Intent intent = new Intent(settingActivity.this, sharesActivity.class);
             intent.putExtra("email", extras.getString("email"));
@@ -45,5 +52,35 @@ public class settingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
+
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            btnToggleDark.setText("Disable Dark Mode");
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            btnToggleDark.setText("Enable Dark Mode");
+        }
+
+        btnToggleDark.setOnClickListener(view -> {
+            if (isDarkModeOn)
+            {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putBoolean("isDarkModeOn", false);
+                editor.apply();
+                btnToggleDark.setText("Enable Dark Mode");
+            }
+            else
+            {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putBoolean("isDarkModeOn", true);
+                editor.apply();
+                btnToggleDark.setText("Disable Dark Mode");
+            }
+        });
     }
 }
