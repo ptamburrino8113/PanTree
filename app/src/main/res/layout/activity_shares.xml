@@ -8,50 +8,58 @@
 
 
     <!-- and ends with -->
+
     <Button
         android:id="@+id/homeButton"
-        android:layout_width="80dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="48dp"
-        android:backgroundTint="#6D706B"
+        android:layout_width="121dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="631dp"
+        android:layout_marginEnd="284dp"
+        android:layout_marginBottom="38dp"
+        android:backgroundTint="#5dbea3"
         android:text="Home"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sharesButton"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/sharesButton"
-        android:layout_width="95dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="121dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="631dp"
+        android:layout_marginBottom="38dp"
         android:backgroundTint="#669349"
         android:text="Codes"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/settings2Button"
-        app:layout_constraintStart_toEndOf="@+id/homeButton" />
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/settings2Button"
-        android:layout_width="110dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="48dp"
-        android:backgroundTint="#1365A6"
+        android:id="@+id/settingsButton"
+        android:layout_width="121dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="286dp"
+        android:layout_marginTop="631dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="38dp"
+        android:backgroundTint="#5dbea3"
         android:text="Settings"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharesButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/accesscodetext"
