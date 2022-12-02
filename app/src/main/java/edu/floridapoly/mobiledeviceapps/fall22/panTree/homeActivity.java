@@ -182,7 +182,7 @@ public class homeActivity extends AppCompatActivity {
                                             return i1.getName().compareTo(i2.getName());
                                         });
                                         System.out.println("Items list: " + items_list.toString());
-                                        arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items_list);
+                                        arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_list_item, items_list);
 
                                         listView.setAdapter(arrayAdapter);
                                     }

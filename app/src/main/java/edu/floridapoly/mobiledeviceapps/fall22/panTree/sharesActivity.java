@@ -109,7 +109,7 @@ public class sharesActivity extends AppCompatActivity {
                                             if (document1.exists()) {
                                                 System.out.println("EMAIL OF CODE: " + document1.getString("email"));
                                                 accessCodesList.add(new AccessCodeObject(codes_keys.get(finalI), codes_collection.get(finalI).toString(), document1.getString("email")));
-                                                arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, accessCodesList);
+                                                arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_list_item, accessCodesList);
                                                 listView.setAdapter(arrayAdapter);
                                             }
                                         }
