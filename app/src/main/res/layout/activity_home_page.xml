@@ -65,8 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:hint="Add Item Here"
         android:textColor = "?android:textColorPrimary"
+        android:hint="Add Item Here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,12 +91,12 @@
         android:layout_width="407dp"
         android:layout_height="490dp"
         android:layout_marginEnd="5dp"
+        android:textColor = "?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AddItem"
-        android:textColor = "?android:textColorPrimary"
         app:layout_constraintVertical_bias="0.14"></ListView>
 
     <Button
