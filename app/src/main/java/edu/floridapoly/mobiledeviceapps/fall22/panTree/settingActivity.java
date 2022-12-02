@@ -7,11 +7,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class settingActivity extends AppCompatActivity {
 
     Button homeButton;
     Button sharesButton;
-    Button settingsButton;
+    //Button settingsButton;
+    Button logoutbutton;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +24,7 @@ public class settingActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         sharesButton = findViewById(R.id.sharesButton);
+        logoutbutton = findViewById(R.id.logoutb);
         sharesButton.setOnClickListener(view -> {
             Intent intent = new Intent(settingActivity.this, sharesActivity.class);
             intent.putExtra("email", extras.getString("email"));
@@ -32,6 +37,11 @@ public class settingActivity extends AppCompatActivity {
             Intent intent = new Intent(settingActivity.this, homeActivity.class);
             intent.putExtra("email", extras.getString("email"));
             intent.putExtra("uid_user", extras.getString("uid_user"));
+            startActivity(intent);
+        });
+        logoutbutton.setOnClickListener(view -> {
+            Intent intent = new Intent(settingActivity.this, loginActivity.class);
+            FirebaseAuth.getInstance().signOut();
             startActivity(intent);
         });
 
