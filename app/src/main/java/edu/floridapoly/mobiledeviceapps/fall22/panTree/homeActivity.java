@@ -78,7 +78,7 @@ public class homeActivity extends AppCompatActivity {
 
         AddItem.setOnClickListener(view -> {
             String items = ItemName.getText().toString();
-            //TODO: what does this if statement do??
+
             if (items.matches(""))
                 return;
 
@@ -240,6 +240,7 @@ public class homeActivity extends AppCompatActivity {
             });
         });
 
+        // Trigger delete event
         listView.setOnItemClickListener((parent, view, position, id) -> {
             ItemObject item = (ItemObject) listView.getItemAtPosition(position);
             System.out.println("SELECTED ITEM NAME: " + item.getName());
@@ -254,7 +255,7 @@ public class homeActivity extends AppCompatActivity {
                     (dialog, which) -> {
                         System.out.println("Trigger delete event for item Field_name: " + item.getField_name());
                         DocumentReference docRef = db.collection("Lists").document(item.getParent_document());
-                        // Remove the 'capital' field from the document
+
                         Map<String,Object> updates = new HashMap<>();
                         updates.put(item.getField_name(), FieldValue.delete());
 
@@ -283,12 +284,6 @@ public class homeActivity extends AppCompatActivity {
             intent.putExtra("uid_user", uid_user);
             startActivity(intent);
         });
-
-//        logoutButton = findViewById(R.id.logoutButton);
-//        logoutButton.setOnClickListener(view -> {
-//            Intent intent = new Intent(home_page.this, MainActivity.class);
-//            startActivity(intent);
-//        });
     }
 
     @Override
