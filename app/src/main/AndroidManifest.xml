@@ -27,6 +27,10 @@
             android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
+            android:name=".settingActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
+        <activity
             android:name=".loginActivity"
             android:exported="true">
             <intent-filter>

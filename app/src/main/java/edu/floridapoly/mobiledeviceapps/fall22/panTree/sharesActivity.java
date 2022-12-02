@@ -12,16 +12,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -33,7 +30,6 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -42,7 +38,7 @@ import java.util.Set;
 public class sharesActivity extends AppCompatActivity {
     Button sharesButton;
     Button homeButton;
-    Button logoutButton;
+    Button settingsButton;
     EditText accesscodetext;
     Button refreshsharebutton;
     Button adduserbutton;
@@ -240,11 +236,19 @@ public class sharesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(view -> {
-            Intent intent = new Intent(sharesActivity.this, loginActivity.class);
+        settingsButton = findViewById(R.id.settings2Button);
+        settingsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(sharesActivity.this, settingActivity.class);
+            intent.putExtra("email", extras.getString("email"));
+            intent.putExtra("uid_user", extras.getString("uid_user"));
             startActivity(intent);
         });
+
+//        logoutButton = findViewById(R.id.settings2Button);
+//        logoutButton.setOnClickListener(view -> {
+//            Intent intent = new Intent(sharesActivity.this, loginActivity.class);
+//            startActivity(intent);
+//        });
 
     }
     @Override

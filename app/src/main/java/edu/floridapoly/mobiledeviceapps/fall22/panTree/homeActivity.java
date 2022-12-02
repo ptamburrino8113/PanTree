@@ -49,7 +49,7 @@ public class homeActivity extends AppCompatActivity {
     ArrayAdapter<ItemObject> arrayAdapter;
     Button homeButton;
     Button sharesButton;
-    Button logoutButton;
+    Button settingsButton;
     private FirebaseAuth mAuth;
     String email_user;
 
@@ -276,11 +276,19 @@ public class homeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-       // logoutButton = findViewById(R.id.logoutButton);
-        //logoutButton.setOnClickListener(view -> {
-            //Intent intent = new Intent(home_page.this, MainActivity.class);
-            //startActivity(intent);
-        //});
+        settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(homeActivity.this, settingActivity.class);
+            intent.putExtra("email", email_user);
+            intent.putExtra("uid_user", uid_user);
+            startActivity(intent);
+        });
+
+//        logoutButton = findViewById(R.id.logoutButton);
+//        logoutButton.setOnClickListener(view -> {
+//            Intent intent = new Intent(home_page.this, MainActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     @Override

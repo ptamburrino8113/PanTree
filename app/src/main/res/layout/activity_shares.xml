@@ -35,24 +35,23 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+        app:layout_constraintEnd_toStartOf="@+id/settings2Button"
         app:layout_constraintStart_toEndOf="@+id/homeButton" />
 
     <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="95dp"
+        android:id="@+id/settings2Button"
+        android:layout_width="110dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="21dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="48dp"
         android:backgroundTint="#1365A6"
-        android:text="Logout"
+        android:text="Settings"
         android:textAlignment="center"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharesButton"/>
+        app:layout_constraintStart_toEndOf="@+id/sharesButton" />
 
     <EditText
         android:id="@+id/accesscodetext"
