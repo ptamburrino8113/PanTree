@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -182,7 +183,7 @@ public class homeActivity extends AppCompatActivity {
                                             return i1.getName().compareTo(i2.getName());
                                         });
                                         System.out.println("Items list: " + items_list.toString());
-                                        arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_list_item, items_list);
+                                        arrayAdapter = new ArrayAdapter<>(homeActivity.this, R.layout.custom_list_item, items_list);
 
                                         listView.setAdapter(arrayAdapter);
                                     }
@@ -225,7 +226,7 @@ public class homeActivity extends AppCompatActivity {
                                     });
                                     System.out.println("Self item list: " + homeActivity.this.items_list.toString());
                                     //update adapter
-                                    arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, homeActivity.this.items_list);
+                                    arrayAdapter = new ArrayAdapter<>(homeActivity.this, R.layout.custom_list_item, homeActivity.this.items_list);
                                     listView.setAdapter(arrayAdapter);
                                 }
                             } else {
