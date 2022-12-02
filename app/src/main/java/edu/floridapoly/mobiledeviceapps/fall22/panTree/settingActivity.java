@@ -19,7 +19,11 @@ public class settingActivity extends AppCompatActivity {
     Button logoutbutton;
     Button btnToggleDark;
 
-
+    /*  TODO:
+        - fix dark mode toggle being scuffed between restarts
+        - fix dark mode toggle on switching between screens
+        - fix bottom button colors to look better, maybe highlight selected and leave the rest the same
+     */
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
