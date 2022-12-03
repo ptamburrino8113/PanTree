@@ -1,5 +1,6 @@
 package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,12 +18,11 @@ public class settingActivity extends AppCompatActivity {
     Button sharesButton;
     //Button settingsButton;
     Button logoutbutton;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch btnToggleDark;
 
     /*  TODO:
-        - fix dark mode toggle being scuffed between restarts
-        - fix dark mode toggle on switching between screens
-        - fix bottom button colors to look better, maybe highlight selected and leave the rest the same
+        - fix darkmode not activating until opening the settings screen after relaunch (maybe load setting on app opening)
      */
 
     protected void onCreate(Bundle savedInstanceState) {
