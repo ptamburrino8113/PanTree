@@ -13,9 +13,8 @@
         android:id="@+id/homeButton"
         android:layout_width="121dp"
         android:layout_height="62dp"
-        android:layout_marginStart="6dp"
         android:layout_marginTop="631dp"
-        android:layout_marginEnd="284dp"
+        android:layout_marginEnd="286dp"
         android:layout_marginBottom="38dp"
         android:backgroundTint="#5dbea3"
         android:text="Home"
@@ -23,10 +22,9 @@
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/sharesButton"
@@ -50,7 +48,7 @@
         android:layout_height="62dp"
         android:layout_marginStart="286dp"
         android:layout_marginTop="631dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="38dp"
         android:backgroundTint="#5dbea3"
         android:text="Settings"

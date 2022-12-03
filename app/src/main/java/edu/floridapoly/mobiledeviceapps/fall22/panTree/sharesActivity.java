@@ -236,7 +236,7 @@ public class sharesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        settingsButton = findViewById(R.id.settings2Button);
+        settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(view -> {
             Intent intent = new Intent(sharesActivity.this, settingActivity.class);
             intent.putExtra("email", extras.getString("email"));
