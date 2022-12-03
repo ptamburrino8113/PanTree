@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -17,7 +17,7 @@ public class settingActivity extends AppCompatActivity {
     Button sharesButton;
     //Button settingsButton;
     Button logoutbutton;
-    Button btnToggleDark;
+    Switch btnToggleDark;
 
     /*  TODO:
         - fix dark mode toggle being scuffed between restarts
@@ -32,8 +32,8 @@ public class settingActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         sharesButton = findViewById(R.id.sharesButton);
-        logoutbutton = findViewById(R.id.logoutb);
-        btnToggleDark = findViewById(R.id.switch1);
+        logoutbutton = findViewById(R.id.logoutButton);
+        btnToggleDark = findViewById(R.id.darkModeSwitch);
 
 
         sharesButton.setOnClickListener(view -> {
@@ -64,10 +64,12 @@ public class settingActivity extends AppCompatActivity {
         if (isDarkModeOn) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             btnToggleDark.setText("Disable Dark Mode");
+            btnToggleDark.setChecked(true);
         }
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             btnToggleDark.setText("Enable Dark Mode");
+            btnToggleDark.setChecked(false);
         }
 
         btnToggleDark.setOnClickListener(view -> {

@@ -58,7 +58,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/darkModeSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="155dp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/logoutb"
+        android:id="@+id/logoutButton"
         android:layout_width="199dp"
         android:layout_height="63dp"
         android:layout_marginStart="155dp"
@@ -87,7 +87,7 @@
         app:layout_constraintBottom_toTopOf="@+id/sharesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
