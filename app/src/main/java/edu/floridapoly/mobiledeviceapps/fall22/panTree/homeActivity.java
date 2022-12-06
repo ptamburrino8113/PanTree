@@ -112,14 +112,6 @@ public class homeActivity extends AppCompatActivity {
 
         });
 
-        homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(view -> {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Home page where you can view your pantry items. A quantity will later be added to each",
-                    Toast.LENGTH_LONG);
-            toast.show();
-        });
-
         refreshbutton = findViewById(R.id.refreshbutton);
         refreshbutton.setOnClickListener(view -> {
             items_list = new ArrayList<>();

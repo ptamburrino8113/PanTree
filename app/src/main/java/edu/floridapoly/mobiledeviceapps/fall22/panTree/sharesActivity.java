@@ -222,14 +222,6 @@ public class sharesActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        sharesButton = findViewById(R.id.sharesButton);
-        sharesButton.setOnClickListener(view -> {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "This button will take the user to the shares page to see family members",
-                    Toast.LENGTH_LONG);
-            toast.show();
-        });
-
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(view -> {
             Intent intent = new Intent(sharesActivity.this, homeActivity.class);
@@ -243,13 +235,6 @@ public class sharesActivity extends AppCompatActivity {
             intent.putExtra("uid_user", extras.getString("uid_user"));
             startActivity(intent);
         });
-
-//        logoutButton = findViewById(R.id.settings2Button);
-//        logoutButton.setOnClickListener(view -> {
-//            Intent intent = new Intent(sharesActivity.this, loginActivity.class);
-//            startActivity(intent);
-//        });
-
     }
     @Override
     public void onStart() {

@@ -21,10 +21,6 @@ public class settingActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch btnToggleDark;
 
-    /*  TODO:
-        - fix darkmode not activating until opening the settings screen after relaunch (maybe load setting on app opening)
-     */
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
