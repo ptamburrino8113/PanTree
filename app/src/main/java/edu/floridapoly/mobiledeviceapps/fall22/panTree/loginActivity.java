@@ -50,6 +50,16 @@ public class loginActivity extends AppCompatActivity {
             String emailClean = editTextEmailAddress.getText().toString().trim();
             String passClean = editTextPassword.getText().toString().trim();
 
+            if(emailClean.length() == 0){
+                Toast.makeText(loginActivity.this, "Email field is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(passClean.length() == 0){
+                Toast.makeText(loginActivity.this, "Password field is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             auth.signInWithEmailAndPassword(emailClean, passClean)
                     .addOnCompleteListener(loginActivity.this, task -> {
                         if (task.isSuccessful())

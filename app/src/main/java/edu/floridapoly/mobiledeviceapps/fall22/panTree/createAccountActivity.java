@@ -48,7 +48,19 @@ public class createAccountActivity extends AppCompatActivity
 
         createAccountButton2.setOnClickListener(view -> {
             String emailValue = emailComponent.getText().toString().trim();
-            String passwordValue = passwordComponent .getText().toString().trim();
+            String passwordValue = passwordComponent.getText().toString().trim();
+
+            if(emailValue.length() == 0){
+                Toast.makeText(createAccountActivity.this, "Email field is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(passwordValue.length() == 0){
+                Toast.makeText(createAccountActivity.this, "Password field is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             mAuth.createUserWithEmailAndPassword(emailValue, passwordValue)
                     .addOnCompleteListener(createAccountActivity.this, task -> {
                         if (task.isSuccessful())

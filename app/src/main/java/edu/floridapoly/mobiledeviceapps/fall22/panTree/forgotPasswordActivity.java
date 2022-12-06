@@ -31,6 +31,12 @@ public class forgotPasswordActivity extends AppCompatActivity {
 
         sendLinkButton.setOnClickListener(view -> {
             String email_user = emailComponent.getText().toString();
+
+            if(email_user.length() == 0){
+                Toast.makeText(forgotPasswordActivity.this, "Email field is empty.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             FirebaseAuth.getInstance().sendPasswordResetEmail(email_user).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast toast = Toast.makeText(getApplicationContext(),

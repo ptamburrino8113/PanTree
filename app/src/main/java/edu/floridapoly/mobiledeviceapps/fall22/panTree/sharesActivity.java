@@ -5,9 +5,14 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,6 +55,7 @@ public class sharesActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<AccessCodeObject> arrayAdapter;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +78,15 @@ public class sharesActivity extends AppCompatActivity {
             System.out.println(email_user);
         }
 
-        accesscode.setText(user_uid);
+        accesscode.setText("Access Code: " + user_uid);
+
+        accesscode.setOnLongClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Access Code", user_uid);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(sharesActivity.this, "Access code copied to clipboard.", Toast.LENGTH_SHORT).show();
+            return true;
+        });
 
         refreshsharebutton.setOnClickListener(view -> {
             String accessCodeSelf = accesscode.getText().toString();
