@@ -43,38 +43,33 @@ public class createAccountActivity extends AppCompatActivity
         createAccountButton2 = findViewById(R.id.createAccountButton2);
         backButton2 = findViewById(R.id.backButton2);
         createAccountButton2 = findViewById(R.id.createAccountButton2);
-        EditText email = findViewById(R.id.editTextEmailAddress2);
-        EditText pass = findViewById(R.id.editTextPassword2);
-        System.out.println(email);
-        System.out.println(pass);
+        EditText emailComponent = findViewById(R.id.editTextEmailAddress2);
+        EditText passwordComponent = findViewById(R.id.editTextPassword2);
 
         createAccountButton2.setOnClickListener(view -> {
-            String emaill = email .getText().toString().trim();
-            String passs = pass .getText().toString().trim();
-            mAuth.createUserWithEmailAndPassword(emaill, passs)
+            String emailValue = emailComponent.getText().toString().trim();
+            String passwordValue = passwordComponent .getText().toString().trim();
+            mAuth.createUserWithEmailAndPassword(emailValue, passwordValue)
                     .addOnCompleteListener(createAccountActivity.this, task -> {
                         if (task.isSuccessful())
                         {
                             // Sign in success, update UI with the signed-in user's information
-                            //adsadas
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(createAccountActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(createAccountActivity.this, homeActivity.class);
-                            intent.putExtra("email", emaill);
+                            intent.putExtra("email", emailValue);
                             Map<String, Object> userr = new HashMap<>();
-                            userr.put("email", emaill);
-                            userr.put("pass", passs);
+                            userr.put("email", emailValue);
+                            userr.put("pass", passwordValue);
                             assert user != null;
                             db.collection("Users").document(user.getUid()).set(userr, SetOptions.merge());
 
                             startActivity(intent);
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(createAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     });
         });
