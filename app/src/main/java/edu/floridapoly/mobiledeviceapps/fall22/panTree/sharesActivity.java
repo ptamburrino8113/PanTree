@@ -89,12 +89,15 @@ public class sharesActivity extends AppCompatActivity {
         });
 
         refreshsharebutton.setOnClickListener(view -> {
-            String accessCodeSelf = accesscode.getText().toString();
+            String accessCodeSelf = user_uid.toString();
+            System.out.println("Self code: "  + accessCodeSelf);
             DocumentReference doc2Ref = db.collection("Access_codes").document(accessCodeSelf);
             doc2Ref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    System.out.println("success1");
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        System.out.println("success2");
                         System.out.println("Access_codes data: "  + document.getData());
 
                         System.out.println("Access_codes data type: "  + Objects.requireNonNull(document.getData()).getClass().getName());
@@ -143,22 +146,28 @@ public class sharesActivity extends AppCompatActivity {
         });
         adduserbutton.setOnClickListener(view -> {
             String accessCodeValue = accesscodetext.getText().toString();
-            String accessCodeSelf = accesscode.getText().toString();
+            String accessCodeSelf = user_uid.toString();
 
             // if the access code is empty / blank
             if (accessCodeValue.matches(""))
                 return;
 
-            for(AccessCodeObject accessCodeObject : accessCodesList){
-                if(accessCodeValue.equals(accessCodeObject.getCode())){
-                    accesscodetext.setText("");
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "This user has already been added to your list of access codes.",
-                            Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
+
+            if(accessCodesList != null){
+                System.out.println("accessCodesList: " + accessCodesList.toString());
+
+                for(AccessCodeObject accessCodeObject : accessCodesList){
+                    if(accessCodeValue.equals(accessCodeObject.getCode())){
+                        accesscodetext.setText("");
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "This user has already been added to your list of access codes.",
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                        return;
+                    }
                 }
             }
+
 
             // check if the document is valid
             Task<QuerySnapshot> colRef = db.collection("Lists").get().addOnCompleteListener(task -> {

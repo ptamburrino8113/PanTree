@@ -38,13 +38,13 @@ public class loginActivity extends AppCompatActivity {
         createAccountButton = findViewById(R.id.createAccountButton);
         auth = FirebaseAuth.getInstance();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-        final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
-
-        if (isDarkModeOn)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+//        final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
+//
+//        if (isDarkModeOn)
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        else
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         loginButton.setOnClickListener(view -> {
             String emailClean = editTextEmailAddress.getText().toString().trim();
