@@ -18,7 +18,7 @@ public class forgotPasswordActivity extends AppCompatActivity {
 
     Button sendLinkButton;
     Button backButton;
-    EditText emaill;
+    EditText emailComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,35 +27,25 @@ public class forgotPasswordActivity extends AppCompatActivity {
 
         sendLinkButton = findViewById(R.id.sendLinkButton);
         backButton = findViewById(R.id.backButton);
-        emaill = findViewById(R.id.forgotPassEmailAddress);
+        emailComponent = findViewById(R.id.forgotPassEmailAddress);
 
-        sendLinkButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String email_user = emaill.getText().toString();
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email_user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    "Instructions sent succesfully",
-                                    Toast.LENGTH_LONG);
-                            toast.show();
-                            Intent intent = new Intent(forgotPasswordActivity.this, loginActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-            }
+        sendLinkButton.setOnClickListener(view -> {
+            String email_user = emailComponent.getText().toString();
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email_user).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "A recovery email has been sent.",
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                    Intent intent = new Intent(forgotPasswordActivity.this, loginActivity.class);
+                    startActivity(intent);
+                }
+            });
         });
 
-
-        backButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(forgotPasswordActivity.this, loginActivity.class);
-                startActivity(intent);
-            }
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(forgotPasswordActivity.this, loginActivity.class);
+            startActivity(intent);
         });
 
 
