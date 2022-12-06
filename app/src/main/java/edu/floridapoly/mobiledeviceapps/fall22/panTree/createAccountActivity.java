@@ -56,7 +56,7 @@ public class createAccountActivity extends AppCompatActivity
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(createAccountActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(createAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(createAccountActivity.this, homeActivity.class);
                             intent.putExtra("email", emailValue);
                             Map<String, Object> userr = new HashMap<>();
@@ -64,7 +64,6 @@ public class createAccountActivity extends AppCompatActivity
                             userr.put("pass", passwordValue);
                             assert user != null;
                             db.collection("Users").document(user.getUid()).set(userr, SetOptions.merge());
-
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
