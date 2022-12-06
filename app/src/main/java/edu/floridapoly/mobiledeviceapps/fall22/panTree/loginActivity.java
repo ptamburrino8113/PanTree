@@ -1,8 +1,10 @@
 package edu.floridapoly.mobiledeviceapps.fall22.panTree;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,8 +38,15 @@ public class loginActivity extends AppCompatActivity {
         createAccountButton = findViewById(R.id.createAccountButton);
         auth = FirebaseAuth.getInstance();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        final boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
+
+        if (isDarkModeOn)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         loginButton.setOnClickListener(view -> {
-            //to commit
             String emailClean = editTextEmailAddress.getText().toString().trim();
             String passClean = editTextPassword.getText().toString().trim();
 
@@ -45,14 +54,12 @@ public class loginActivity extends AppCompatActivity {
                     .addOnCompleteListener(loginActivity.this, task -> {
                         if (task.isSuccessful())
                         {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
-
+                            assert user != null;
+                            // Sign in success
                             Intent intent = new Intent(loginActivity.this, homeActivity.class);
-                            intent.putExtra("email", emailClean);
+                            intent.putExtra("email", user.getEmail());
                             startActivity(intent);
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
