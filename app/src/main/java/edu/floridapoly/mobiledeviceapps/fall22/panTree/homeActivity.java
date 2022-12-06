@@ -157,18 +157,18 @@ public class homeActivity extends AppCompatActivity {
                                 if (task1.isSuccessful()) {
                                     DocumentSnapshot document1 = task1.getResult();
                                     if (document1.exists()) {
-                                        System.out.println("Item list data: "  + document1.getData());
+//                                        System.out.println("Item list data: "  + document1.getData());
 //                                        System.out.println("Item list type: "  + Objects.requireNonNull(document1.getData()).getClass().getName());
 
                                         // get the values of all of the fields and convert to array for ease
                                         Collection<Object> items_collection_values = Objects.requireNonNull(document1.getData()).values();
                                         ArrayList<Object> items_collection = new ArrayList<>(items_collection_values);
-                                        System.out.println("items_collection: " + items_collection);
+//                                        System.out.println("items_collection: " + items_collection);
 
                                         // get the field names and convert to array for ease
                                         Set<String> items_keys_set = document1.getData().keySet();
                                         ArrayList<String> items_keys = new ArrayList<>(items_keys_set);
-                                        System.out.println("items_keys: " + items_keys);
+//                                        System.out.println("items_keys: " + items_keys);
 
                                         // loop over the objects in the collection
                                         // and create a new ItemObject with the values of:
@@ -200,17 +200,20 @@ public class homeActivity extends AppCompatActivity {
                             if (selfTask.isSuccessful()) {
                                 DocumentSnapshot selfListDocument = selfTask.getResult();
                                 if (selfListDocument.exists()) {
-                                    System.out.println("Self list data: "  + selfListDocument.getData());
+//                                    System.out.println("Self list data: "  + selfListDocument.getData());
 //                                    System.out.println("Self list data type: "  + Objects.requireNonNull(selfListDocument.getData()).getClass().getName());
+
                                     // get the values of all of the fields and convert to array for ease
                                     Collection<Object> items_collection_values = Objects.requireNonNull(selfListDocument.getData()).values();
                                     ArrayList<Object> items_collection = new ArrayList<>(items_collection_values);
-                                    System.out.println("Self items_collection: " + items_collection);
+//                                    System.out.println("Self items_collection: " + items_collection);
 
                                     // get the field names and convert to array for ease
                                     Set<String> items_keys_set = selfListDocument.getData().keySet();
                                     ArrayList<String> items_keys = new ArrayList<>(items_keys_set);
-                                    System.out.println("Self items_keys: " + items_keys);
+//                                    System.out.println("Self items_keys: " + items_keys);
+
+
                                     // loop over the objects in the collection
                                     // and create a new ItemObject with the values of:
                                     // - UID (this is the document name)
@@ -221,9 +224,7 @@ public class homeActivity extends AppCompatActivity {
                                     }
 
                                     // sort the list with custom comparator (could maybe update this, but it requires api ver 24 instead of 21)
-                                    Collections.sort(items_list, (i1, i2) -> {
-                                        return i1.getName().compareTo(i2.getName());
-                                    });
+                                    Collections.sort(items_list, (i1, i2) -> i1.getName().compareTo(i2.getName()));
                                     System.out.println("Self item list: " + homeActivity.this.items_list.toString());
                                     //update adapter
                                     arrayAdapter = new ArrayAdapter<>(homeActivity.this, R.layout.custom_list_item, homeActivity.this.items_list);
