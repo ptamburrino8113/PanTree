@@ -1,6 +1,6 @@
 # PanTree
 
-An online pantry app for keeping track of what is in your household pantry.
+An online collaborative pantry app for keeping track of what is in your household.
 
 This app allows people to add items to a list, delete items, share their list with other people, all being stored inside a Firebase Database.
 
