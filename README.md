@@ -6,7 +6,14 @@ This app allows people to add items to a list, delete items, share their list wi
 
 The application is built from Android Studio using Java.
 
-### Configuration
+## Developed by
+
+- Noah Burton
+- Parker Tamburrino 
+- Gabriel Tavares
+- Jerren Trifan
+
+## Configuration
 
 The Firebase database requires authentication credentials which can be filled out in the app/google-services.json plugin.
 
